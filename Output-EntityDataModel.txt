@@ -1,0 +1,6 @@
+﻿Generated model file: PatientModel.edmx.
+Loading metadata from the database took 00:00:00.5251249.
+Generating the model took 00:00:00.7225622.
+Generated model file: PatientModel.edmx.
+Loading metadata from the database took 00:00:00.4609445.
+Generating the model took 00:00:00.3882990.

@@ -20,5 +20,7 @@ namespace PatientServices.Models
         }
 
         public System.Data.Entity.DbSet<DataAccessLayer.Patient> Patients { get; set; }
+
+        public System.Data.Entity.DbSet<DataAccessLayer.Doctor> Doctors { get; set; }
     }
 }

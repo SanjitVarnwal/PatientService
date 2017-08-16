@@ -17,7 +17,7 @@ namespace PatientServices.Controllers
 {
     public class PatientsController : ApiController
     {
-        private PatientServicesContext db = new PatientServicesContext();
+        private PatientManagementEntities db = new PatientManagementEntities();
 
         // GET: api/Patients
         /**
@@ -26,6 +26,12 @@ namespace PatientServices.Controllers
             return new string[] { "sanju", "hi" };
 
         }
+            
+        public IQueryable<Patient> GetPatients()
+        {
+            
+            return db.Patients;
+        } 
         **/
         public IQueryable<PatientDto> GetPatients()
         {
@@ -43,7 +49,8 @@ namespace PatientServices.Controllers
             return Patients;
             //return db.Patients;
         }
-
+        
+        
         // GET: api/Patients/5
         [ResponseType(typeof(Patient))]
         public async Task<IHttpActionResult> GetPatient(int id)
