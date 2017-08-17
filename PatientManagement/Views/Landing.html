@@ -1,0 +1,67 @@
+﻿<div class="container">
+    <h3 class="page-header">Search Patients</h3>
+    <form name="searchForm" ng-model="input">
+        <label>Patient Id</label>
+        <input type="text" ng-model="input.id" class="form-control" />
+
+        <label>Patient Name</label>
+        <input type="text" ng-model="input.name" class="form-control" />
+
+        <label>Doctor's Name</label>
+        <select ng-model="input.doctor" ng-options="item.Id as item.Name for item in doctors" class="form-control"></select>
+
+        <label>Contact No</label>
+        <input type="text" name="" ng-model="input.contact" class="form-control" />
+        <br />
+        <br />
+        <input type="button" value="Reset Fields" ng-click="clear()" class="btn btn-primary"  />
+        
+
+        <input type="button" value="Add New Patient" ng-click="redirectToAdd()" class="btn btn-success" />
+    </form>
+    <br />
+</div>
+
+
+
+
+
+<br />
+
+<div class="container">
+    <h4 class="sub-header">Patient Information</h4>
+
+    <table border="1" class="table table-bordered table-hover">
+
+        <tr>
+            <th>Patient Id</th>
+            <th>Patient Name</th>
+            <th>Age</th>
+            <th>Last Visit</th>
+            <th>Cause/Disease</th>
+            <th>Contact No</th>
+            <th>Consulting Doctor(s)</th>
+            <th>Inpatient Services</th>
+            <th>Outpatient Services</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>History</th>
+        </tr>
+
+
+        <tr ng-repeat="patient in list | filter : {Id: input.id, Name: input.name, Doctor: input.doctor, Contact: input.contact  }">
+            <td><a href="#!view/{{list.indexOf(patient)}}">{{patient.Id}}</a></td>
+            <td>{{patient.Name}}</td>
+            <td>{{patient.Age}}</td>
+            <td>{{patient.LastVisitDate}}</td>
+            <td>{{patient.Disease}}</td>
+            <td>{{patient.Contact}}</td>
+            <td>{{patient.Doctor}}</td>
+            <td><input type="button" value="IP History/New IP" class="btn btn-default" /></td>
+            <td><input type="button" value="OP History/New OP" class="btn btn-default" /></td>
+            <td><input type="button" value="Edit" ng-click="redirectToEdit(list.indexOf(patient))" class="btn btn-primary" />
+            <td><input type="button" value="Delete" class="btn btn-danger" data-toggle="confirmation" ng-click="deletePatient(patient.Id)"/></td>
+            <td><input type="button" value="History" class="btn btn-default" /></td>
+        </tr>
+    </table>
+</div>

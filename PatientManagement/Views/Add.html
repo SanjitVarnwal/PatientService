@@ -1,0 +1,26 @@
+﻿<h3 style="text-decoration:underline">Add Patient</h3>
+
+<form name="addForm">
+    <label>Name:</label>
+    <input type="text" name="name" ng-model="name" required/><br /><br />
+    <label>Gender:</label>
+    <label><input type="radio" name="gender" ng-model="gender" value="Male" ng-checked="true" />Male</label>
+    <label><input type="radio" name="gender" ng-model="gender" value="Female" />Female</label><br /><br />
+    <label>Weight:</label>
+    <input type="number" name="weight" ng-model="weight" step="0.1" required/><label ng-show="addForm.weight.$error.number"> Enter a valid weight</label><br /><br />
+    <label>Consulting Doctor:</label>
+    <select ng-model="doctor" ng-options="item.Id as item.Name for item in doctors" >
+    </select>
+    <br /><br />
+    <label>Date of Birth:</label>
+    <input type="date" name="dob" ng-model="dob" placeholder="YYYY-MM-DD" required/><label ng-show="addForm.dob.$error.date"> Enter a valid date</label><br /><br />
+    <label>Cause/Disease:</label>
+    <textarea name="disease" ng-model="disease" required></textarea><br /><br />
+    <label>Contact No:</label>
+    <input type="text" name="contact" ng-model="contact" ng-pattern="/^[7-9]{1}[0-9]{9}$/" required/><label ng-show="addForm.contact.$error.pattern"> Enter a valid contact number</label><br /><br />
+    <label>Registration Fee:</label>
+    <input type="number" name="fee" ng-model="fee" required /><label ng-show="addForm.fee.$error.number"> Enter a valid registration fee</label><br /><br />
+
+    <input type="button" value="Save" ng-disabled="addForm.$invalid" ng-click="createPatient()"/>
+    <input type="button" value="Cancel" ng-click="redirect()"/>
+</form>

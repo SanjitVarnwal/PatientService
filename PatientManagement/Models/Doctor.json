@@ -1,0 +1,22 @@
+﻿[
+  {
+    "Id": 2001,
+    "Name": "Ashwini Kakkar",
+    "Dept": "Obstetrcis & Gynaecology"
+  },
+  {
+    "Id": 2002,
+    "Name": "Parvathy Rao",
+    "Dept": "Orthopedics"
+  },
+  {
+    "Id": 2003,
+    "Name": "Dhruv Verma",
+    "Dept": "Cardiology"
+  },
+  {
+    "Id": 2004,
+    "Name": "Shantanu Pathak",
+    "Dept": "Neurology"
+  }
+]

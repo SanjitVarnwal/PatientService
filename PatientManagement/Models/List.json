@@ -1,0 +1,54 @@
+﻿[
+  {
+    "Id": 100001,
+    "Name": "Anand Kumar",
+    "Age": "55 years 5 months",
+    "Gender": "Male",
+    "Weight": 73.5,
+    "Doctor": 2003,
+    "DateOfBirth": "1967-06-09",
+    "Disease": "Hypertension",
+    "Contact": "9523462882",
+    "RegFee": 200,
+    "LastVisitDate": "2017-08-07"
+  },
+  {
+    "Id": 100002,
+    "Name": "Nandkishore Sharma",
+    "Age": "27 years 2 months",
+    "Gender": "Male",
+    "Weight": 80,
+    "Doctor": 2002,
+    "DateOfBirth": "1990-06-12",
+    "Disease": "Joint Pain",
+    "Contact": "8234669281",
+    "RegFee": 400,
+    "LastVisitDate": "2017-08-14"
+  },
+  {
+    "Id": 100003,
+    "Name": "Shilpi Gupta",
+    "Age": "25 years 5 months",
+    "Gender": "Female",
+    "Weight": 65,
+    "Doctor": 2001,
+    "DateOfBirth": "1992-03-14",
+    "Disease": "Child Birth",
+    "Contact": "7798366154",
+    "RegFee": 700,
+    "LastVisitDate": "2017-08-10"
+  },
+  {
+    "Id": 100004,
+    "Name": "Ram Prasad",
+    "Age": "80 years 1 months",
+    "Gender": "Male",
+    "Weight": 68,
+    "Doctor": 2004,
+    "DateOfBirth": "1937-07-29",
+    "Disease": "Haemorrage",
+    "Contact": "9934500897",
+    "RegFee": 1000,
+    "LastVisitDate": "2017-08-01"
+  }
+]
