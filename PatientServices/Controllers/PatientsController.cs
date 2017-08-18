@@ -33,18 +33,24 @@ namespace PatientServices.Controllers
             return db.Patients;
         } 
         **/
-        public IQueryable<PatientDto> GetPatients()
+        public IQueryable<PatientDetailDto> GetPatients()
         {
             var Patients = from p in db.Patients
-                           select new PatientDto()
+                           where p.StatusFlag == 1
+                           select new PatientDetailDto()
                            {
                                Id = p.Id,
                                Name = p.Name,
+                               Age = p.Age,
+                               Gender = p.Gender,
+                               Weight = p.Weight,
                                DOB = p.DOB,
                                ConsultingDoctor = p.Doctor.Name,
                                Disease = p.Disease,
                                Contact = p.Contact,
-                               LastVisit = p.LastVisit
+                               RegistrationFee = p.RegistrationFee,
+                               LastVisit = p.LastVisit,
+                               StatusFlag = p.StatusFlag
                            };
             return Patients;
             //return db.Patients;
@@ -68,7 +74,9 @@ namespace PatientServices.Controllers
            Disease = p.Disease,
            Contact = p.Contact,
            RegistrationFee = p.RegistrationFee,
-           LastVisit = p.LastVisit
+           LastVisit = p.LastVisit,
+           StatusFlag = p.StatusFlag
+
 
        }).SingleOrDefaultAsync(p => p.Id == id);
             if (Patients == null)

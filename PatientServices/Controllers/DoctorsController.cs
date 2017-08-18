@@ -14,6 +14,7 @@ using PatientServices.Models;
 
 namespace PatientServices.Controllers
 {
+    using BusinessEntity;
     using System.Data.Entity.SqlServer;
 
     internal static class MissingDllHack
@@ -26,12 +27,22 @@ namespace PatientServices.Controllers
 
     public class DoctorsController : ApiController
     {
-        private PatientServicesContext db = new PatientServicesContext();
+        private PatientManagementEntities db = new PatientManagementEntities();
 
         // GET: api/Doctors
-        public IQueryable<Doctor> GetDoctors()
+        public IQueryable<DoctorsDto> GetDoctors()
         {
-            return db.Doctors;
+            var Doctors = from d in db.Doctors
+                          select new DoctorsDto()
+                          {
+                              Id = d.Id,
+                              Name = d.Name,
+                              Department = d.Department
+                          };
+
+            return Doctors;
+
+            //return db.Doctors;
         }
 
         // GET: api/Doctors/5

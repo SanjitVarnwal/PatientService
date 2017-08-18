@@ -9,7 +9,7 @@
     <label>Weight:</label>
     <input type="number" name="weight" ng-model="weight" step="0.1" required/><label ng-show="addForm.weight.$error.number"> Enter a valid weight</label><br /><br />
     <label>Consulting Doctor:</label>
-    <select ng-model="doctor" ng-options="item.Id as item.Name for item in doctors" >
+    <select ng-model="doctor" ng-options="item.Id as item.Name for item in doctors"  >
     </select>
     <br /><br />
     <label>Date of Birth:</label>

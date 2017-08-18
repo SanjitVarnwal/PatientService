@@ -28,6 +28,17 @@
           <Property Name="Contact" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="RegistrationFee" Type="int" Nullable="false" />
           <Property Name="LastVisit" Type="date" Nullable="false" />
+          <Property Name="StatusFlag" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_Patient_Doctor">
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
@@ -44,6 +55,7 @@
         <EntityContainer Name="PatientManagementModelStoreContainer">
           <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Patient_Doctor" Association="Self.FK_Patient_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
             <End Role="Patient" EntitySet="Patient" />
@@ -78,6 +90,7 @@
           <Property Name="RegistrationFee" Type="Int32" Nullable="false" />
           <Property Name="LastVisit" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_Patient_Doctor" FromRole="Patient" ToRole="Doctor" />
+          <Property Name="StatusFlag" Type="Byte" Nullable="false" />
         </EntityType>
         <Association Name="FK_Patient_Doctor">
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
@@ -98,7 +111,18 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="Patient" EntitySet="Patients" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="PatientManagementModel.sysdiagram" />
         </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -117,6 +141,7 @@
           <EntitySetMapping Name="Patients">
             <EntityTypeMapping TypeName="PatientManagementModel.Patient">
               <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
@@ -128,6 +153,17 @@
                 <ScalarProperty Name="Contact" ColumnName="Contact" />
                 <ScalarProperty Name="RegistrationFee" ColumnName="RegistrationFee" />
                 <ScalarProperty Name="LastVisit" ColumnName="LastVisit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PatientManagementModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -8,7 +8,7 @@
         <input type="text" ng-model="input.name" class="form-control" />
 
         <label>Doctor's Name</label>
-        <select ng-model="input.doctor" ng-options="item.Id as item.Name for item in doctors" class="form-control"></select>
+        <select ng-model="input.doctor" ng-options="item.Name as item.Name for item in doctors" class="form-control"></select>
 
         <label>Contact No</label>
         <input type="text" name="" ng-model="input.contact" class="form-control" />
@@ -49,17 +49,17 @@
         </tr>
 
 
-        <tr ng-repeat="patient in list | filter : {Id: input.id, Name: input.name, Doctor: input.doctor, Contact: input.contact  }">
-            <td><a href="#!view/{{list.indexOf(patient)}}">{{patient.Id}}</a></td>
+        <tr ng-repeat="patient in list | filter : {Id: input.id, Name: input.name, ConsultingDoctor: input.doctor, Contact: input.contact  }">
+            <td><a href="#!view/{{patient.Id}}">{{patient.Id}}</a></td>
             <td>{{patient.Name}}</td>
             <td>{{patient.Age}}</td>
-            <td>{{patient.LastVisitDate}}</td>
+            <td>{{patient.LastVisit}}</td>
             <td>{{patient.Disease}}</td>
             <td>{{patient.Contact}}</td>
-            <td>{{patient.Doctor}}</td>
+            <td>{{patient.ConsultingDoctor}}</td>
             <td><input type="button" value="IP History/New IP" class="btn btn-default" /></td>
             <td><input type="button" value="OP History/New OP" class="btn btn-default" /></td>
-            <td><input type="button" value="Edit" ng-click="redirectToEdit(list.indexOf(patient))" class="btn btn-primary" />
+            <td><input type="button" value="Edit" ng-click="redirectToEdit(patient.Id)" class="btn btn-primary" />
             <td><input type="button" value="Delete" class="btn btn-danger" data-toggle="confirmation" ng-click="deletePatient(patient.Id)"/></td>
             <td><input type="button" value="History" class="btn btn-default" /></td>
         </tr>

@@ -15,7 +15,7 @@ namespace PatientServices
         {
             AreaRegistration.RegisterAllAreas();
             //new line
-            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            //GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -23,7 +23,8 @@ namespace PatientServices
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             HttpConfiguration config = GlobalConfiguration.Configuration;
-            
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+
             config.Formatters.JsonFormatter
                         .SerializerSettings
                         .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

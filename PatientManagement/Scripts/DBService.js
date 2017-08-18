@@ -18,7 +18,7 @@
         }
 
         Database.createPatient = function (patient) {
-            var request = $http({
+            request = $http({
                 method: "post",
                 url: "/api/Patients",
                 data: patient
@@ -44,7 +44,7 @@
         }
 
     Database.getDoctorList = function () {
-        return $http.get('/api/Doctors/')
+        return $http.get('/api/Doctors')
             .then(function (response) {
                 return response.data;
             });

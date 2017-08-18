@@ -23,12 +23,12 @@
             "Age": $scope.calcAge($scope.dob),
             "Gender": $scope.gender,
             "Weight": $scope.weight,
-            "Doctor": $scope.doctor,
-            "DateOfBirth": moment($scope.dob).format('YYYY-MM-DD'),
+            "ConsultingDoctor": $scope.doctor,
+            "DOB": moment($scope.dob).format('YYYY-MM-DD'),
             "Disease": $scope.disease,
             "Contact": $scope.contact,
-            "RegFee": $scope.fee,
-            "LastVisitDate": moment(new Date()).format('YYYY-MM-DD')
+            "RegistrationFee": $scope.fee,
+            "LastVisit": new Date()
         }
 
         Database.updatePatient($scope.id, newPatient)
@@ -53,18 +53,16 @@
 
     Database.readPatient($routeParams.id)
         .then(function (response) {
-            $scope.list = response;
-            patient = $scope.list[$routeParams.id];
-            console.log(patient);
+            patient = response;
             $scope.id = patient.Id;
             $scope.name = patient.Name;
             $scope.gender = patient.Gender;
             $scope.weight = patient.Weight;
             $scope.doctor = patient.Doctor;
-            $scope.dob = new Date(Date.parse(""+patient.DateOfBirth));
+            $scope.dob = new Date(Date.parse(""+patient.DOB));
             $scope.disease = patient.Disease;
             $scope.contact = patient.Contact;
-            $scope.fee = patient.RegFee;
+            $scope.fee = patient.RegistrationFee;
         },
         function () {
             console.log("Error: " + err);

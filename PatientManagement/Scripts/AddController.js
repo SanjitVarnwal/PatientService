@@ -18,25 +18,25 @@
     }
 
     $scope.createPatient = function () {
-        var newPatient = {
+        newPatient = {
             "Name": $scope.name,
             "Age": $scope.calcAge($scope.dob),
             "Gender": $scope.gender,
             "Weight": $scope.weight,
-            "Doctor": $scope.doctor,
-            "DateOfBirth": moment($scope.dob).format('YYYY-MM-DD'),
+            "ConsultingDoctor": $scope.doctor,
+            "DOB": $scope.dob,
             "Disease": $scope.disease,
             "Contact": $scope.contact,
-            "RegFee": $scope.fee,
-            "LastVisitDate": moment(new Date()).format('YYYY-MM-DD')
+            "RegistrationFee": $scope.fee,
+            "LastVisit": new Date()
         }
 
         Database.createPatient(newPatient)
-            .then(function () {
-
+            .then(function (response) {
+                alert('Created Patient: ' + response.data[0])
             },
             function (err) {
-                console.log("Error: " + err);
+                console.log("Error: " + err.data[1]);
             }
             )
     }
