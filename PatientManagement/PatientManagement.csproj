@@ -134,6 +134,7 @@
     <Content Include="Models\List.json" />
     <Content Include="Models\Doctor.json" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="test\dbservicetest.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
