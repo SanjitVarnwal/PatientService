@@ -28,7 +28,8 @@
             "Disease": $scope.disease,
             "Contact": $scope.contact,
             "RegistrationFee": $scope.fee,
-            "LastVisit": new Date()
+            "LastVisit": new Date(),
+            "StatusFlag": 1
         }
 
         Database.createPatient(newPatient)

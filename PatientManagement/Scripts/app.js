@@ -22,3 +22,9 @@ app.config(function ($routeProvider) {
             templateUrl: "/Views/Start.html"
         })
 });
+
+app.filter('formatDate', function () {
+    return function (input) {
+        return moment(input).format('YYYY-MM-DD');
+    }
+});

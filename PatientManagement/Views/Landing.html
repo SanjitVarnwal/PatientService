@@ -48,12 +48,11 @@
             <th>History</th>
         </tr>
 
-
         <tr ng-repeat="patient in list | filter : {Id: input.id, Name: input.name, ConsultingDoctor: input.doctor, Contact: input.contact  }">
             <td><a href="#!view/{{patient.Id}}">{{patient.Id}}</a></td>
             <td>{{patient.Name}}</td>
             <td>{{patient.Age}}</td>
-            <td>{{patient.LastVisit}}</td>
+            <td>{{patient.LastVisit|formatDate}}</td>
             <td>{{patient.Disease}}</td>
             <td>{{patient.Contact}}</td>
             <td>{{patient.ConsultingDoctor}}</td>

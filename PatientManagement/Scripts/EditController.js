@@ -24,16 +24,18 @@
             "Gender": $scope.gender,
             "Weight": $scope.weight,
             "ConsultingDoctor": $scope.doctor,
-            "DOB": moment($scope.dob).format('YYYY-MM-DD'),
+            "DOB": $scope.dob,
             "Disease": $scope.disease,
             "Contact": $scope.contact,
             "RegistrationFee": $scope.fee,
-            "LastVisit": new Date()
+            "LastVisit": new Date(),
+            "StatusFlag": 0
         }
 
         Database.updatePatient($scope.id, newPatient)
-            .then(function () {
-
+            .then(function (response) {
+                alert('Updated Patient: ' + $scope.id);
+                $location.path('/landing');
             },
             function (err) {
                 console.log("Error: " + err);
@@ -45,7 +47,7 @@
         .then(function (response) {
             $scope.doctors = response;
         },
-        function () {
+        function (err) {
             console.log("Error: " + err);
         }
     )
@@ -58,7 +60,7 @@
             $scope.name = patient.Name;
             $scope.gender = patient.Gender;
             $scope.weight = patient.Weight;
-            $scope.doctor = patient.Doctor;
+            $scope.doctor = patient.ConsultingDoctor;
             $scope.dob = new Date(Date.parse(""+patient.DOB));
             $scope.disease = patient.Disease;
             $scope.contact = patient.Contact;

@@ -1,6 +1,6 @@
 ﻿<h3 style="text-decoration:underline">Edit Patient</h3>
 
-<form name="editForm">
+<form name="editForm" >
     <label>Patient Id:</label>
     <input type="text" ng-model="id" disabled /><br /><br />
     <label>Name:</label>
@@ -11,7 +11,7 @@
     <label>Weight:</label>
     <input type="number" name="weight" ng-model="weight" step="0.1" required /><label ng-show="editForm.weight.$error.number"> Enter a valid weight</label><br /><br />
     <label>Consulting Doctor:</label>
-    <select ng-model="doctor" ng-options="item.Name as item.Name for item in doctors"></select>
+    <select ng-model="doctor" ng-options="item.Id as item.Name for item in doctors"></select>
     <br /><br />
     <label>Date of Birth:</label>
     <input type="date" name="dob" ng-model="dob" placeholder="YYYY-MM-DD" required /><label ng-show="editForm.dob.$error.date"> Enter a valid date</label><br /><br />

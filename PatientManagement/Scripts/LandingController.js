@@ -12,6 +12,8 @@
 
     
 
+    
+
     Database.getDoctorList()
         .then(function (response) {
             $scope.doctors = response;

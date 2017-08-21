@@ -13,7 +13,7 @@
             $scope.gender = patient.Gender;
             $scope.weight = patient.Weight;
             $scope.doctor = patient.ConsultingDoctor;
-            $scope.dob = patient.DOB;
+            $scope.dob = moment(patient.DOB).format('YYYY-MM-DD');
             $scope.disease = patient.Disease;
             $scope.contact = patient.Contact;
             $scope.fee = patient.RegistrationFee;
