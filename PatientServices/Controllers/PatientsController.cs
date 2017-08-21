@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using DataAccessLayer;
 using PatientServices.Models;
 using BusinessEntity;
+using System.Data.Entity.Validation;
 
 namespace PatientServices.Controllers
 {
@@ -134,6 +135,23 @@ namespace PatientServices.Controllers
             catch (DbUpdateException)
             {
                 throw new DbUpdateException("The request couldn't be successfully Executed !!");
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
+
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join( " ; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                // Throw a new DbEntityValidationException with the improved exception message.
+                throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+
             }
             //Loads the newly updated data in the patient with reference of foriegn doctor table
             db.Entry(patient).Reference(x => x.Doctor).Load();
