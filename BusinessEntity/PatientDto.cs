@@ -34,4 +34,8 @@ namespace BusinessEntity
         public System.DateTime LastVisit { get; set; }
         public byte StatusFlag { get; set; }
     }
+    public class PatientIdDto
+    {
+        public int Id { get; set; }
+    }
 }
