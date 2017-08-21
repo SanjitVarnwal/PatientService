@@ -33,26 +33,27 @@ namespace PatientServices.Controllers
             return db.Patients;
         } 
         **/
-        public IQueryable<PatientDetailDto> GetPatients()
+        public IQueryable<PatientDto> GetPatients()
         {
-            var Patients = from p in db.Patients
-                           where p.StatusFlag == 1
-                           select new PatientDetailDto()
-                           {
-                               Id = p.Id,
-                               Name = p.Name,
-                               Age = p.Age,
-                               Gender = p.Gender,
-                               Weight = p.Weight,
-                               DOB = p.DOB,
-                               ConsultingDoctor = p.Doctor.Name,
-                               Disease = p.Disease,
-                               Contact = p.Contact,
-                               RegistrationFee = p.RegistrationFee,
-                               LastVisit = p.LastVisit,
-                               StatusFlag = p.StatusFlag
-                           };
-            return Patients;
+                var Patients = from p in db.Patients
+                               where p.StatusFlag == 0
+                               select new PatientDto()
+                               {
+                                   Id = p.Id,
+                                   Name = p.Name,
+                                   Age = p.Age,
+                                   Gender = p.Gender,
+                                   Weight = p.Weight,
+                                   DOB = p.DOB,
+                                   ConsultingDoctor = p.Doctor.Name,
+                                   Disease = p.Disease,
+                                   Contact = p.Contact,
+                                   RegistrationFee = p.RegistrationFee,
+                                   LastVisit = p.LastVisit,
+                                   StatusFlag = p.StatusFlag
+                               };
+                return Patients;
+           
             //return db.Patients;
         }
         
@@ -61,7 +62,7 @@ namespace PatientServices.Controllers
         [ResponseType(typeof(Patient))]
         public async Task<IHttpActionResult> GetPatient(int id)
         {
-            var Patients = await db.Patients.Include(p => p.Doctor).Select(p =>
+            var Patient = await db.Patients.Include(p => p.Doctor).Select(p =>
        new PatientDetailDto()
        {
            Id = p.Id,
@@ -70,21 +71,20 @@ namespace PatientServices.Controllers
            Gender = p.Gender,
            Weight = p.Weight,
            DOB = p.DOB,
-           ConsultingDoctor = p.Doctor.Name,
+           ConsultingDoctor = p.ConsultingDoctor,
            Disease = p.Disease,
            Contact = p.Contact,
            RegistrationFee = p.RegistrationFee,
-           LastVisit = p.LastVisit,
-           StatusFlag = p.StatusFlag
+           LastVisit = p.LastVisit
 
 
        }).SingleOrDefaultAsync(p => p.Id == id);
-            if (Patients == null)
+            if (Patient == null)
             {
                 return NotFound();
             }
 
-            return Ok(Patients);
+            return Ok(Patient);
         }
 
         // PUT: api/Patients/5
@@ -101,6 +101,11 @@ namespace PatientServices.Controllers
                 return BadRequest();
             }
 
+            if (!PatientExists(id))
+            {
+                return NotFound();
+            }
+
             db.Entry(patient).State = EntityState.Modified;
 
             try
@@ -108,15 +113,8 @@ namespace PatientServices.Controllers
                 await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
-            {
-                if (!PatientExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+            {    
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -132,18 +130,19 @@ namespace PatientServices.Controllers
             }
 
             db.Patients.Add(patient);
-            await db.SaveChangesAsync();
-            //New Code
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+                //New Code
             db.Entry(patient).Reference(x => x.Doctor).Load();
             var dto = new PatientDto()
             {
                 Id = patient.Id,
-                Name = patient.Name,
-                DOB = patient.DOB,
-                ConsultingDoctor = patient.Doctor.Name,
-                Disease = patient.Disease,
-                Contact = patient.Contact,
-                LastVisit = patient.LastVisit
             };
 
             return CreatedAtRoute("DefaultApi", new { id = patient.Id }, dto);
