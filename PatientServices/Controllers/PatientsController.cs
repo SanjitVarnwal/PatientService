@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using DataAccessLayer;
 using PatientServices.Models;
 using BusinessEntity;
+using System.Data.Entity.Validation;
 
 namespace PatientServices.Controllers
 {
@@ -20,39 +21,29 @@ namespace PatientServices.Controllers
         private PatientManagementEntities db = new PatientManagementEntities();
 
         // GET: api/Patients
-        /**
-        public IEnumerable<string> GetPatients()
-        {
-            return new string[] { "sanju", "hi" };
-
-        }
-            
-        public IQueryable<Patient> GetPatients()
-        {
-            
-            return db.Patients;
-        } 
-        **/
         public IQueryable<PatientDto> GetPatients()
         {
-                var Patients = from p in db.Patients
-                               where p.StatusFlag == 0
-                               select new PatientDto()
-                               {
-                                   Id = p.Id,
-                                   Name = p.Name,
-                                   Age = p.Age,
-                                   Gender = p.Gender,
-                                   Weight = p.Weight,
-                                   DOB = p.DOB,
-                                   ConsultingDoctor = p.Doctor.Name,
-                                   Disease = p.Disease,
-                                   Contact = p.Contact,
-                                   RegistrationFee = p.RegistrationFee,
-                                   LastVisit = p.LastVisit,
-                                   StatusFlag = p.StatusFlag
-                               };
-                return Patients;
+            var Patients = from p in db.Patients
+                           where p.StatusFlag == 0
+                           select new PatientDto()
+                           {
+                               Id = p.Id,
+                               Name = p.Name,
+                               Age = p.Age,
+                               Gender = p.Gender,
+                               Weight = p.Weight,
+                               DOB = p.DOB,
+                               ConsultingDoctor = p.Doctor.Name,
+                               Disease = p.Disease,
+                               Contact = p.Contact,
+                               RegistrationFee = p.RegistrationFee,
+                               LastVisit = p.LastVisit,
+                           };
+            if (Patients == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+            }
+            return Patients;
            
             //return db.Patients;
         }
@@ -81,7 +72,12 @@ namespace PatientServices.Controllers
        }).SingleOrDefaultAsync(p => p.Id == id);
             if (Patient == null)
             {
-                return NotFound();
+                var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("No Patient with ID = {0}", id)),
+                    ReasonPhrase = "Patient ID Not Found"
+                };
+                throw new HttpResponseException(resp);
             }
 
             return Ok(Patient);
@@ -95,26 +91,28 @@ namespace PatientServices.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            /**
             if (id != patient.Id)
             {
                 return BadRequest();
             }
-
+            **/
             if (!PatientExists(id))
             {
                 return NotFound();
             }
-
             db.Entry(patient).State = EntityState.Modified;
-
             try
             {
                 await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
-            {    
-                throw;
+            {
+                return StatusCode(HttpStatusCode.NotModified);
+            }
+            catch (DbUpdateException)
+            {
+                throw new DbUpdateException("The request couldn't be successfully Executed !!");   
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -134,36 +132,54 @@ namespace PatientServices.Controllers
             {
                 await db.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException)
             {
-                throw;
+                throw new DbUpdateException("The request couldn't be successfully Executed !!");
             }
-                //New Code
-            db.Entry(patient).Reference(x => x.Doctor).Load();
-            var dto = new PatientDto()
+            catch (DbEntityValidationException ex)
             {
-                Id = patient.Id,
-            };
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
 
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join( " ; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                // Throw a new DbEntityValidationException with the improved exception message.
+                throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+
+            }
+            //Loads the newly updated data in the patient with reference of foriegn doctor table
+            db.Entry(patient).Reference(x => x.Doctor).Load();
+            var dto = new PatientIdDto()
+            {
+                Id = patient.Id
+            };
+            //returns Response 201 and dto object with it.
             return CreatedAtRoute("DefaultApi", new { id = patient.Id }, dto);
         }
 
-        // DELETE: api/Patients/5
-        [ResponseType(typeof(Patient))]
-        public async Task<IHttpActionResult> DeletePatient(int id)
-        {
-            var Patients = await db.Patients.FindAsync(id);
-            //Patient patient = await db.Patients.FindAsync(id);
-            if (Patients == null)
-            {
-                return NotFound();
-            }
+        //Not implementing this function as a method for soft delete from database is already being implemented.
+        //// DELETE: api/Patients/5
+        //[ResponseType(typeof(Patient))]
+        //public async Task<IHttpActionResult> DeletePatient(int id)
+        //{
+        //    var Patients = await db.Patients.FindAsync(id);
+        //    //Patient patient = await db.Patients.FindAsync(id);
+        //    if (Patients == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.Patients.Remove(Patients);
-            await db.SaveChangesAsync();
+        //    db.Patients.Remove(Patients);
+        //    await db.SaveChangesAsync();
 
-            return Ok(Patients);
-        }
+        //    return Ok(Patients);
+        //}
 
         protected override void Dispose(bool disposing)
         {
