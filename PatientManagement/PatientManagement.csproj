@@ -96,6 +96,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DBService.js" />
+    <Content Include="Scripts\DoctorService.js" />
     <Content Include="Scripts\EditController.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -110,6 +111,7 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\LandingController.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\PatientService.js" />
     <Content Include="Scripts\Validation.js" />
     <Content Include="Scripts\ViewController.js" />
     <Content Include="Views\Add.html" />
