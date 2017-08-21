@@ -89,6 +89,8 @@
     <Content Include="Images\logo.gif" />
     <Content Include="index.html" />
     <Content Include="Scripts\AddController.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app.js" />

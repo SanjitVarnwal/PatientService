@@ -1,9 +1,11 @@
-﻿app.controller("AddController", function ($scope, $location, $http, Database) {
+﻿app.controller("AddController", function ($scope, $location, $http, Database, PatientService, DoctorService) {
 
-    Database.getDoctorList()
-        .then(function (response) {
-            $scope.doctors = response;
-        })
+
+    $scope.doctors = DoctorService.query();
+    //Database.getDoctorList()
+    //    .then(function (response) {
+    //        $scope.doctors = response;
+    //    })
 
     $scope.calcAge = function (dob) {
         today = new Date();
@@ -18,28 +20,42 @@
     }
 
     $scope.createPatient = function () {
-        newPatient = {
-            "Name": $scope.name,
-            "Age": $scope.calcAge($scope.dob),
-            "Gender": $scope.gender,
-            "Weight": $scope.weight,
-            "ConsultingDoctor": $scope.doctor,
-            "DOB": $scope.dob,
-            "Disease": $scope.disease,
-            "Contact": $scope.contact,
-            "RegistrationFee": $scope.fee,
-            "LastVisit": new Date(),
-            "StatusFlag": 1
-        }
+        //newPatient = {
+        //    "Name": $scope.name,
+        //    "Age": $scope.calcAge($scope.dob),
+        //    "Gender": $scope.gender,
+        //    "Weight": $scope.weight,
+        //    "ConsultingDoctor": $scope.doctor,
+        //    "DOB": $scope.dob,
+        //    "Disease": $scope.disease,
+        //    "Contact": $scope.contact,
+        //    "RegistrationFee": $scope.fee,
+        //    "LastVisit": new Date(),
+        //    "StatusFlag": 0
+        //}
 
-        Database.createPatient(newPatient)
-            .then(function (response) {
-                alert('Created Patient: ' + response.data[0])
-            },
-            function (err) {
-                console.log("Error: " + err.data[1]);
-            }
-            )
+        $scope.patient = PatientService.save({
+            Name: $scope.name,
+            Age: $scope.calcAge($scope.dob),
+            Gender: $scope.gender,
+            Weight: $scope.weight,
+            ConsultingDoctor: $scope.doctor,
+            DOB: $scope.dob,
+            Disease: $scope.disease,
+            Contact: $scope.contact,
+            RegistrationFee: $scope.fee,
+            LastVisit: new Date(),
+            StatusFlag: 0
+        })
+
+        //Database.createPatient(newPatient)
+        //    .then(function (response) {
+        //        alert('Created Patient: ')
+        //    },
+        //    function (err) {
+                
+        //    }
+        //    )
     }
 
     $scope.redirect = function () {

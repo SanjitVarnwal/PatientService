@@ -1,3 +1,3 @@
-﻿app.factory('PatientService', function ($resource) {
-    return $resource('/api/Doctors/:id', { id: '@id' });
+﻿app.factory('DoctorService', function ($resource) {
+    return $resource('/api/Doctors/:id');
 })

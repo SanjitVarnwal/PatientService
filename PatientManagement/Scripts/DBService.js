@@ -18,7 +18,7 @@
         }
 
         Database.createPatient = function (patient) {
-            request = $http({
+            var request = $http({
                 method: "post",
                 url: "/api/Patients",
                 data: patient

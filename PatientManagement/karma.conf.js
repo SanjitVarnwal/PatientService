@@ -15,6 +15,19 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+        './node_modules/angular/angular.js',                             
+        './node_modules/angular-ui-router/release/angular-ui-router.js', 
+        './node_modules/angular-mocks/angular-mocks.js', 
+        './Scripts/angular-route.min.js',
+        './Scripts/angular-resource.min.js',
+        
+        //'./scripts/landingcontroller.js',
+        //'./scripts/viewcontroller.js',
+        //'./scripts/editcontroller.js',
+        //'./scripts/addcontroller.js',
+        './Scripts/DBService.js',
+        './Scripts/app.js',
+        './Scripts/PatientService.js',
         './test/dbservicetest.js'
     ],
 
@@ -60,7 +73,7 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
     // Concurrency level
     // how many browser should be started simultaneous

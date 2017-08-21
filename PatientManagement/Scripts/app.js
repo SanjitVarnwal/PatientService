@@ -1,4 +1,4 @@
-﻿var app = angular.module("patientApp", ["ngRoute", "DBService"]);
+﻿var app = angular.module("patientApp", ["ngRoute", "ngResource", "DBService"]);
 
 app.config(function ($routeProvider) {
     $routeProvider
