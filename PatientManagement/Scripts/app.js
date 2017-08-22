@@ -1,4 +1,4 @@
-﻿var app = angular.module("patientApp", ["ngRoute", "ngResource", "DBService"]);
+﻿var app = angular.module("patientApp", ["ngRoute", "ngResource"]);
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -15,8 +15,8 @@ app.config(function ($routeProvider) {
             controller: "EditController"
         })
         .when("/view/:id", {
-            templateUrl: "/Views/View.html",
-            controller: "ViewController"
+            templateUrl: "/Views/Edit.html",
+            controller: "EditController"
         })
         .otherwise({
             templateUrl: "/Views/Start.html"

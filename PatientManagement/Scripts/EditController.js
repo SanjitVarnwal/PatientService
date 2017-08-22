@@ -1,4 +1,4 @@
-﻿app.controller("EditController", function ($scope, $location, $http, $routeParams, Database, DoctorService, PatientService) {
+﻿app.controller("EditController", function ($scope, $location, $http, $routeParams, DoctorService, PatientService) {
 
     $scope.redirect = function () {
         $location.path('/landing');

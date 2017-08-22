@@ -1,6 +1,6 @@
-﻿app.controller("AddController", function ($scope, $location, $http, Database, PatientService, DoctorService) {
+﻿app.controller("AddController", function ($scope, $location, $http, PatientService, DoctorService) {
 
-
+    $scope.gender = "Male";
     $scope.doctors = DoctorService.query();
     //Database.getDoctorList()
     //    .then(function (response) {
@@ -46,6 +46,9 @@
             RegistrationFee: $scope.fee,
             LastVisit: new Date(),
             StatusFlag: 0
+        }, function () {
+            alert('Patient Saved');
+            $location.path('/landing');
         })
 
         //Database.createPatient(newPatient)
