@@ -158,10 +158,76 @@ describe('query()', function () {
         });
     });
 
-    it('should return undefined if the patient cannot be found', function () {
-        PatientService.query(function () {
-            expect(patients).toEqual(null);
+})
+
+describe('update()', function () {
+
+    beforeEach(angular.mock.module('patientApp'));
+
+    beforeEach(inject(function (_PatientService_) {
+        PatientService = _PatientService_;
+    }))
+    var newpatient = {
+        "Id": 101,
+        "Name": "Ramesh Kumar",
+        "Age": "5 years 2 months",
+        "Gender": "Male",
+        "Weight": 9.3,
+        "ConsultingDoctor": "M P Sharma",
+        "DOB": "2012-06-01T00:00:00",
+        "Disease": "Jukaam",
+        "Contact": "8789342567",
+        "RegistrationFee": 40,
+        "LastVisit": "2017-08-21T00:00:00",
+        "StatusFlag": 0
+    };
+    it('should exist', function () {
+        expect(PatientService.update).toBeDefined();
+    });
+
+    it('should return updated patient object if Patient is updated ', function () {
+        patients = PatientService.update({ Id: 101 }, newpatient, function () {
+            expect(patients).toEqual(newpatient);
         });
     });
+
+    it('should return not found if Patient id does not exist in database ', function () {
+        patients = PatientService.update({ Id: 303 }, newpatient, function () {
+            expect(patients.statusCode).toBeStatusCode(404);;
+        });
+    });
+
+})
+
+describe('Post()', function () {
+
+    beforeEach(angular.mock.module('patientApp'));
+
+    beforeEach(inject(function (_PatientService_) {
+        PatientService = _PatientService_;
+    }))
+    var newpatient = {
+        "Name": "Alankar Kumar",
+        "Age": "5 years 2 months",
+        "Gender": "Male",
+        "Weight": 9.3,
+        "ConsultingDoctor": 103,
+        "DOB": "2012-06-01T00:00:00",
+        "Disease": "Jukaam",
+        "Contact": "8789342567",
+        "RegistrationFee": 40,
+        "LastVisit": "2017-08-21T00:00:00",
+        "StatusFlag": 0
+    };
+    it('should exist', function () {
+        expect(PatientService.save).toBeDefined();
+    });
+
+    it('should return added patient object if Patient is added successfully ', function () {
+        patients = PatientService.save( newpatient, function () {
+            expect(patients).toEqual(newpatient);
+        });
+    });
+
 
 })
