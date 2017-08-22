@@ -1,4 +1,4 @@
-﻿app.controller("LandingController", function ($scope, $location, $http, Database, DoctorService, PatientService) {
+﻿app.controller("LandingController", function ($scope, $location, $http, DoctorService, PatientService) {
 
     $scope.input = { "id": "", "name": "", "doctor": "", "contact": "" };
 
