@@ -18,6 +18,7 @@ namespace BusinessEntity
         public string Contact { get; set; }
         public int RegistrationFee { get; set; }
         public System.DateTime LastVisit { get; set; }
+        public byte StatusFlag { get; set; }
     }
     public class PatientDto
     {

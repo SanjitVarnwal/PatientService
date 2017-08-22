@@ -51,9 +51,9 @@ namespace PatientServices.Controllers
         
         // GET: api/Patients/5
         [ResponseType(typeof(Patient))]
-        public async Task<IHttpActionResult> GetPatient(int id)
+        public HttpResponseMessage GetPatient(int id)
         {
-            var Patient = await db.Patients.Include(p => p.Doctor).Select(p =>
+            var Patient =  db.Patients.Include(p => p.Doctor).Select(p =>
        new PatientDetailDto()
        {
            Id = p.Id,
@@ -69,59 +69,78 @@ namespace PatientServices.Controllers
            LastVisit = p.LastVisit
 
 
-       }).SingleOrDefaultAsync(p => p.Id == id);
+       }).FirstOrDefault(p => p.Id == id);
             if (Patient == null)
             {
-                var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("No Patient with ID = {0}", id)),
-                    ReasonPhrase = "Patient ID Not Found"
-                };
-                throw new HttpResponseException(resp);
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            //    var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+            //    {
+            //        Content = new StringContent(string.Format("No Patient with ID = {0}", id)),
+            //        ReasonPhrase = "Patient ID Not Found"
+            //    };
+            //    throw new HttpResponseException(resp);
             }
 
-            return Ok(Patient);
+            return Request.CreateResponse(HttpStatusCode.OK, Patient);
         }
 
         // PUT: api/Patients/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPatient(int id, Patient patient)
+        public HttpResponseMessage PutPatient(int id, PatientDetailDto patientdto)
         {
-            if (!ModelState.IsValid)
+            Patient patient = new Patient()
             {
-                return BadRequest(ModelState);
-            }
-            /**
-            if (id != patient.Id)
-            {
-                return BadRequest();
-            }
-            **/
+                Id = patientdto.Id,
+                Name = patientdto.Name,
+                Age = patientdto.Age,
+                Gender = patientdto.Gender,
+                Weight = patientdto.Weight,
+                DOB = patientdto.DOB,
+                ConsultingDoctor = patientdto.ConsultingDoctor,
+                Disease = patientdto.Disease,
+                Contact = patientdto.Contact,
+                RegistrationFee = patientdto.RegistrationFee,
+                LastVisit = patientdto.LastVisit,
+                StatusFlag = 0
+            };
+
+            
             if (!PatientExists(id))
             {
-                return NotFound();
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
             db.Entry(patient).State = EntityState.Modified;
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                return StatusCode(HttpStatusCode.NotModified);
-            }
-            catch (DbUpdateException)
-            {
-                throw new DbUpdateException("The request couldn't be successfully Executed !!");   
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);   
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Request.CreateResponse(HttpStatusCode.OK, patient);
         }
 
         // POST: api/Patients
         [ResponseType(typeof(Patient))]
-        public async Task<IHttpActionResult> PostPatient(Patient patient)
+        public async Task<IHttpActionResult> PostPatient(PatientDetailDto patientdto)
         {
+            Patient patient = new Patient()
+            {
+                Id = patientdto.Id,
+                Name = patientdto.Name,
+                Age = patientdto.Age,
+                Gender = patientdto.Gender,
+                Weight = patientdto.Weight,
+                DOB = patientdto.DOB,
+                ConsultingDoctor = patientdto.ConsultingDoctor,
+                Disease = patientdto.Disease,
+                Contact = patientdto.Contact,
+                RegistrationFee = patientdto.RegistrationFee,
+                LastVisit = patientdto.LastVisit,
+                StatusFlag = 0
+            };
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -138,18 +157,11 @@ namespace PatientServices.Controllers
             }
             catch (DbEntityValidationException ex)
             {
-                // Retrieve the error messages as a list of strings.
                 var errorMessages = ex.EntityValidationErrors
                         .SelectMany(x => x.ValidationErrors)
                         .Select(x => x.ErrorMessage);
-
-                // Join the list to a single string.
                 var fullErrorMessage = string.Join( " ; ", errorMessages);
-
-                // Combine the original exception message with the new one.
                 var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
-
-                // Throw a new DbEntityValidationException with the improved exception message.
                 throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
 
             }
