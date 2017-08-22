@@ -1,4 +1,12 @@
 ﻿app.controller("EditController", function ($scope, $location, $http, $routeParams, DoctorService, PatientService) {
+     
+    if ($location.path().indexOf('edit') > -1) {
+        $scope.editable = true;
+        console.log($location.path());
+    }
+    else {
+        $scope.editable = false;
+    }
 
     $scope.redirect = function () {
         $location.path('/landing');
