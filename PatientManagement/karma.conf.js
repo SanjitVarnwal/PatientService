@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Fri Aug 18 2017 13:31:38 GMT+0530 (India Standard Time)
+// Generated on Tue Aug 22 2017 19:37:05 GMT+0530 (India Standard Time)
 
 module.exports = function(config) {
   config.set({
@@ -15,12 +15,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        './node_modules/angular/angular.js',                             
-        './node_modules/angular-ui-router/release/angular-ui-router.js', 
-        './node_modules/angular-mocks/angular-mocks.js', 
+        './node_modules/angular/angular.js',
+        './node_modules/angular-ui-router/release/angular-ui-router.js',
+        './node_modules/angular-mocks/angular-mocks.js',
         './Scripts/angular-route.min.js',
         './Scripts/angular-resource.min.js',
-        
+
         //'./scripts/landingcontroller.js',
         //'./scripts/viewcontroller.js',
         //'./scripts/editcontroller.js',

@@ -13,6 +13,7 @@ using DataAccessLayer;
 using PatientServices.Models;
 using BusinessEntity;
 using System.Data.Entity.Validation;
+using System.Text;
 
 namespace PatientServices.Controllers
 {
@@ -45,7 +46,7 @@ namespace PatientServices.Controllers
             }
             return Patients;
            
-            //return db.Patients;
+            
         }
         
         
@@ -124,7 +125,7 @@ namespace PatientServices.Controllers
 
         // POST: api/Patients
         [ResponseType(typeof(Patient))]
-        public async Task<IHttpActionResult> PostPatient(PatientDetailDto patientdto)
+        public HttpResponseMessage PostPatient(PatientDetailDto patientdto)
         {
             Patient patient = new Patient()
             {
@@ -141,57 +142,67 @@ namespace PatientServices.Controllers
                 LastVisit = patientdto.LastVisit,
                 StatusFlag = 0
             };
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
 
             db.Patients.Add(patient);
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (Exception) //DbUpdateException
             {
-                throw new DbUpdateException("The request couldn't be successfully Executed !!");
-            }
-            catch (DbEntityValidationException ex)
-            {
-                var errorMessages = ex.EntityValidationErrors
-                        .SelectMany(x => x.ValidationErrors)
-                        .Select(x => x.ErrorMessage);
-                var fullErrorMessage = string.Join( " ; ", errorMessages);
-                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
-                throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
-
+                //    throw new DbUpdateException("The request couldn't be successfully Executed !!");
+                //}
+                //catch (DbEntityValidationException ex)
+                //{
+                //    var errorMessages = ex.EntityValidationErrors
+                //            .SelectMany(x => x.ValidationErrors)
+                //            .Select(x => x.ErrorMessage);
+                //    var fullErrorMessage = string.Join( " ; ", errorMessages);
+                //    var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+                //    throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
             //Loads the newly updated data in the patient with reference of foriegn doctor table
             db.Entry(patient).Reference(x => x.Doctor).Load();
-            var dto = new PatientIdDto()
-            {
-                Id = patient.Id
-            };
+            //var dto = new PatientIdDto()
+            //{
+            //    Id = patient.Id
+            //};
             //returns Response 201 and dto object with it.
-            return CreatedAtRoute("DefaultApi", new { id = patient.Id }, dto);
+            var response =  Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent("" + patient.Id, Encoding.UTF8, "application/json");
+
+            return response;
         }
 
         //Not implementing this function as a method for soft delete from database is already being implemented.
-        //// DELETE: api/Patients/5
-        //[ResponseType(typeof(Patient))]
-        //public async Task<IHttpActionResult> DeletePatient(int id)
-        //{
-        //    var Patients = await db.Patients.FindAsync(id);
-        //    //Patient patient = await db.Patients.FindAsync(id);
-        //    if (Patients == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/Patients/5
+        [ResponseType(typeof(Patient))]
+        public HttpResponseMessage DeletePatient(int id)
+        {
+            var Patient = db.Patients.Find(id);
+            //Patient patient = await db.Patients.FindAsync(id);
+            if (Patient == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
 
-        //    db.Patients.Remove(Patients);
-        //    await db.SaveChangesAsync();
+            Patient.StatusFlag = 1;
+            db.Entry(Patient).State = EntityState.Modified;
 
-        //    return Ok(Patients);
-        //}
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, Patient.Id);
+
+        }
 
         protected override void Dispose(bool disposing)
         {

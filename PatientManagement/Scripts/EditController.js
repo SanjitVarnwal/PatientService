@@ -2,10 +2,12 @@
      
     if ($location.path().indexOf('edit') > -1) {
         $scope.editable = true;
+        $scope.title = "Edit Patient"
         console.log($location.path());
     }
     else {
         $scope.editable = false;
+        $scope.title = "View Patient"
     }
 
     $scope.redirect = function () {

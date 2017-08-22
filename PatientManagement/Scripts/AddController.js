@@ -46,8 +46,8 @@
             RegistrationFee: $scope.fee,
             LastVisit: new Date(),
             StatusFlag: 0
-        }, function () {
-            alert('Patient Saved');
+        }, function (response) {
+            alert('Patient Saved: ' + response);
             $location.path('/landing');
         })
 

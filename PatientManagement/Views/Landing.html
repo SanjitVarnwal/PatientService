@@ -41,11 +41,11 @@
             <th>Cause/Disease</th>
             <th>Contact No</th>
             <th>Consulting Doctor(s)</th>
-            <th>Inpatient Services</th>
-            <th>Outpatient Services</th>
+            <!--<th>Inpatient Services</th>
+            <th>Outpatient Services</th>-->
             <th>Edit</th>
             <th>Delete</th>
-            <th>History</th>
+            <!--<th>History</th>-->
         </tr>
 
         <tr ng-repeat="patient in list | filter : {Id: input.id, Name: input.name, ConsultingDoctor: input.doctor, Contact: input.contact  }">
@@ -56,11 +56,11 @@
             <td>{{patient.Disease}}</td>
             <td>{{patient.Contact}}</td>
             <td>{{patient.ConsultingDoctor}}</td>
-            <td><input type="button" value="IP History/New IP" class="btn btn-default" /></td>
-            <td><input type="button" value="OP History/New OP" class="btn btn-default" /></td>
+            <!--<td><input type="button" value="IP History/New IP" class="btn btn-default" /></td>
+            <td><input type="button" value="OP History/New OP" class="btn btn-default" /></td>-->
             <td><input type="button" value="Edit" ng-click="redirectToEdit(patient.Id)" class="btn btn-primary" />
             <td><input type="button" value="Delete" class="btn btn-danger" data-toggle="confirmation" ng-click="deletePatient(patient.Id)"/></td>
-            <td><input type="button" value="History" class="btn btn-default" /></td>
+            <!--<td><input type="button" value="History" class="btn btn-default" /></td>-->
         </tr>
     </table>
 </div>

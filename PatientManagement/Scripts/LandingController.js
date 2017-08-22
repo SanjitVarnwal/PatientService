@@ -1,4 +1,4 @@
-﻿app.controller("LandingController", function ($scope, $location, $http, DoctorService, PatientService) {
+﻿app.controller("LandingController", function ($scope, $location, $http, $route, DoctorService, PatientService) {
 
     
 
@@ -39,13 +39,10 @@
 
     $scope.deletePatient = function (id) {
         if (confirm("Are you sure?")) {
-            $scope.patient = PatientService.update({ Id: id },
-                {
-                    StatusFlag: 1
-                },
+            $scope.patient = PatientService.delete({ Id: id },
                 function () {
                     alert('Deleted Patient: ' + id);
-                    
+                    $route.reload();
                 })
         }
     }

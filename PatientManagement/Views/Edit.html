@@ -1,29 +1,29 @@
-﻿<h3 style="text-decoration:underline" ng-show="$scope.editable">Edit Patient</h3>
+﻿<h3 style="text-decoration:underline" >{{title}}</h3>
 
 <form name="editForm">
     <label>Patient Id:</label>
     <input type="text" ng-model="id" disabled /><br /><br />
     <label>Name:</label>
-    <input type="text" ng-model="name" required ng-disabled="!$scope.editable"/><br /><br />
+    <input type="text" ng-model="name" required ng-readonly="!editable"/><br /><br />
     <label>Gender:</label>
-    <label><input type="radio" name="gender" ng-model="gender" value="Male"  ng-disabled="!$scope.editable"/>Male</label>
-    <label><input type="radio" name="gender" ng-model="gender" value="Female" ng-disabled="!$scope.editable"/>Female</label><br /><br />
+    <label><input type="radio" name="gender" ng-model="gender" value="Male" ng-disabled="!editable" />Male</label>
+    <label><input type="radio" name="gender" ng-model="gender" value="Female" ng-disabled="!editable"/>Female</label><br /><br />
     <label>Weight:</label>
-    <input type="number" name="weight" ng-model="weight" step="0.1" required ng-disabled="!$scope.editable" /><label ng-show="editForm.weight.$error.number"> Enter a valid weight</label><br /><br />
+    <input type="number" name="weight" ng-model="weight" step="0.1" required ng-readonly="!editable"/><label ng-show="editForm.weight.$error.number"> Enter a valid weight</label><br /><br />
     <label>Consulting Doctor:</label>
-    <select ng-model="doctor" ng-options="item.Id as item.Name for item in doctors" ng-disabled="!$scope.editable"></select>
+    <select ng-model="doctor" ng-options="item.Id as item.Name for item in doctors" ng-readonly="!editable"></select>
     <br /><br />
     <label>Date of Birth:</label>
-    <input type="date" name="dob" ng-model="dob" placeholder="YYYY-MM-DD" required ng-disabled="!$scope.editable"/><label ng-show="editForm.dob.$error.date"> Enter a valid date</label><br /><br />
+    <input type="date" name="dob" ng-model="dob" placeholder="YYYY-MM-DD" required ng-readonly="!editable" /><label ng-show="editForm.dob.$error.date"> Enter a valid date</label><br /><br />
     <label>Cause/Disease:</label>
-    <textarea ng-model="disease" required ng-disabled="!$scope.editable"></textarea><br /><br />
+    <textarea ng-model="disease" required ng-readonly="!editable"></textarea><br /><br />
     <label>Contact No:</label>
-    <input type="text" name="contact" ng-model="contact" ng-pattern="/^[7-9]{1}[0-9]{9}$/" required ng-disabled="!$scope.editable" /><label ng-show="editForm.contact.$error.pattern"> Enter a valid contact number</label><br /><br />
+    <input type="text" name="contact" ng-model="contact" ng-pattern="/^[7-9]{1}[0-9]{9}$/" required ng-readonly="!editable" /><label ng-show="editForm.contact.$error.pattern"> Enter a valid contact number</label><br /><br />
     <label>Registration Fee:</label>
-    <input type="number" name="fee" ng-model="fee" required ng-disabled="!$scope.editable"/><label ng-show="editForm.fee.$error.number"> Enter a valid registration fee</label><br /><br />
+    <input type="number" name="fee" ng-model="fee" required ng-readonly="!editable"/><label ng-show="editForm.fee.$error.number"> Enter a valid registration fee</label><br /><br />
 
 
-    <input type="button" value="Save" ng-disabled="editForm.$invalid  || editForm.$pristine" ng-click="updatePatient()" ng-show="$scope.editable"/>
-    <input type="button" value="Cancel" ng-click="redirect()" ng-show="$scope.editable" />
-    <input type="button" value="Back" ng-click="redirect()" ng-show="!$scope.editable" />
+    <input type="button" value="Save" ng-disabled="editForm.$invalid  || editForm.$pristine" ng-click="updatePatient()" ng-show="editable" />
+    <input type="button" value="Cancel" ng-click="redirect()" ng-show="editable" />
+    <input type="button" value="Back" ng-click="redirect()" ng-show="!editable" />
 </form>
